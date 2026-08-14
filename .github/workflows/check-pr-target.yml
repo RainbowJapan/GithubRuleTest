@@ -14,7 +14,7 @@ jobs:
         # コンテキストは環境変数に入れて安全に扱う
         env:
           HEAD_REF: ${{ github.head_ref }}
-		  BASE_REF: ${{ github.base_ref }}
+          BASE_REF: ${{ github.base_ref }}
         run: |
           echo "Source branch is: $HEAD_REF"
           echo "Base branch is: $BASE_REF"
