@@ -17,6 +17,7 @@ jobs:
 		  BASE_REF: ${{ github.base_ref }}
         run: |
           echo "Source branch is: $HEAD_REF"
+          echo "Base branch is: $BASE_REF"
           if [ "$BASE_REF" = "main" ] && [ "$HEAD_REF" != "stg" ]; then
             echo "::error::エラー: mainブランチへのPRは、'stg'ブランチからのみ許可されています。"
             exit 1
