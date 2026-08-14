@@ -1,0 +1,23 @@
+name: Check PR Source Branch
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if PR is from stg branch
+        # コンテキストは環境変数に入れて安全に扱う
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          echo "Source branch is: $HEAD_REF"
+          if [ "$HEAD_REF" != "stg" ]; then
+            echo "::error::エラー: mainブランチへのPRは、'stg'ブランチからのみ許可されています。"
+            exit 1
+          fi
+          echo "成功: 送信元ブランチは 'stg' です。"
