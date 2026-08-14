@@ -13,8 +13,8 @@ jobs:
       - name: Check if PR is from stg branch
         # コンテキストは環境変数に入れて安全に扱う
         env:
-          HEAD_REF: ${{ github.head_ref }}
-          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
         run: |
           echo "Source branch is: $HEAD_REF"
           echo "Base branch is: $BASE_REF"
