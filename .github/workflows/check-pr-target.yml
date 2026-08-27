@@ -9,15 +9,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check if PR is from stg branch
-        # コンテキストは環境変数に入れて安全に扱う
         env:
           HEAD_REF: ${{ github.event.pull_request.head.ref }}
           BASE_REF: ${{ github.event.pull_request.base.ref }}
         run: |
-          echo "Source branch is: $HEAD_REF"
-          echo "Base branch is: $BASE_REF"
-          if [ "$BASE_REF" = "main" ] && [ "$HEAD_REF" != "stg" ]; then
-            echo "::error::エラー: mainブランチへのPRは、'stg'ブランチからのみ許可されています。"
+          echo "Source branch is: ${HEAD_REF}"
+          echo "Base branch is: ${BASE_REF}"
+          if [ "${BASE_REF}" != "main" ]; then
+            echo "このPRのターゲットは main ではないため、ブランチチェックをスキップします。"
+            exit 0
+          fi
+          if [ "$HEAD_REF" != "stg" ]; then
+            echo "::error::エラー: mainブランチへのPRは、stgブランチからのみ許可されています。"
             exit 1
           fi
-          echo "成功: 送信元ブランチは 'stg' です。"
+          echo "チェック成功: mainブランチに対して、正しいブランチ（stg）からのPRです。"
